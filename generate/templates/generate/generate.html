@@ -23,42 +23,14 @@
 <div class="container generate-box mx-auto p-4">
     <h1 style="margin-bottom: 0;" class="text-5xl text-center mb-8">Generate Recipes!</h1>
     <div style="width: 289px; margin-bottom: 20px;" class="mx-auto p-4">
-        <button id="input-field-button" type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">WithOut Image</button>
+        <button id="input-field-button" type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Without Image</button>
         <button id="image-field-button" type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">With Image</button>
     </div>
     <!-- generate by custom input -->
     <div class="input-field">
        <form method="post" action="{% url 'using_instruction' %}">
         {% csrf_token %}
-            <div style="width: 70%; margin: auto" class="flex flex-wrap"> <div class="w-full md:w-1/3 p-2">
-                <label class="block mb-2">Choose a protein:</label>
-                <select name="protein" id="protein" class="block w-full border border-gray-300 rounded-lg p-2">
-                    <option value="beef">Beef</option>
-                    <option value="chicken">Chicken</option>
-                    <option value="fish">Fish</option>
-                    <option value="pork">Pork</option>
-                    <option value="turkey">Turkey</option>
-                    <option value="plant">Plant</option>
-                </select>
-            </div>
-            <div class="w-full md:w-1/3 p-2">
-                <label class="block mb-2">Choose a nutritional style:</label>
-                <select name="nutritional" id="style" class="block w-full border border-gray-300 rounded-lg p-2">
-                    <option value="healthy">Healthy</option>
-                    <option value="hearty">Hearty</option>
-                    <option value="low-carb">Low Carb</option>
-                    <option value="whole-foods">Whole Foods</option> </select>
-                </div>
-                <div class="w-full md:w-1/3 p-2">
-                    <label class="block mb-2">Select cuisine:</label>
-                    <select name="cuisine" id="cuisine" class="block w-full border border-gray-300 rounded-lg p-2">
-                        <option value="">Any</option>
-                        <option value="italian">Italian</option>
-                        <option value="mexican">Mexican</option> <option value="indian">Indian</option>
-                        <option value="chinese">Chinese</option> <option value="thai">Thai</option>
-                    </select>
-                </div>
-            </div>
+        <textarea id="myTextarea" name="instructions" rows="4" style="width: 60%; margin: auto; padding: 8px;border: 1px solid gray;" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Create a recipe for..."></textarea>
             {% if messages %}
                 {% for message in messages %}
                 <div class="max-w-screen-md mx-auto p-4 mt-10 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
@@ -80,19 +52,17 @@
     <div style="display: none;"  class="image-field">
         <form method="post" action="{% url 'using_image' %}" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="flex items-center justify-center w-full">
-                <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                        </svg>
-                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                    </div>
-                    <input id="dropzone-file" name="image" type="file" class="hidden"  onchange="displayFileName(this)"/>
-                    <label id="selected-file-name">No file selected</label>
-                </label>
+            <div class="uploadOuter">
+                <div class="dragBox" ondragover="drag()" ondrop="drop()">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                    </svg>
+                    <p class="text-sm font-semibold mb-2 text-gray-500 dark:text-gray-400">Click to upload or drag and drop</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                    <input name="image" type="file" id="uploadFile" onchange="dragNdrop(event)" ondragover="drag()" ondrop="drop()"/>
+                </div>
             </div>
+            <div id="preview"></div>
             {% if messages %}
                 {% for message in messages %}
                 <div class="max-w-screen-md mx-auto p-4 mt-10 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
@@ -180,4 +150,23 @@
 
 
 </script>
+
+<script>
+   "use strict";
+function dragNdrop(event) {
+    var fileName = URL.createObjectURL(event.target.files[0]);
+    var preview = document.getElementById("preview");
+    var previewImg = document.createElement("img");
+    previewImg.setAttribute("src", fileName);
+    preview.innerHTML = "";
+    preview.appendChild(previewImg);
+}
+function drag() {
+    document.getElementById('uploadFile').parentNode.className = 'draging dragBox';
+}
+function drop() {
+    document.getElementById('uploadFile').parentNode.className = 'dragBox';
+}
+</script>
+
 {% endblock body %}

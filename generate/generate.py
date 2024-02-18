@@ -9,7 +9,7 @@ def generate_recipe(category, ingredients= None, img= None):
 
     try:
         if ingredients is not None and img is None:
-            instruction = ingredients + 'make a recipe with this ingredients. ' + system_istruction
+            instruction = ingredients + 'make a recipe with this instructions. ' + system_istruction
             model = genai.GenerativeModel('gemini-pro')
             response = model.generate_content(instruction)
         elif ingredients is None and img is not None:

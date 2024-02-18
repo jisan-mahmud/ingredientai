@@ -58,10 +58,10 @@ def generatewithimage(request):
 #This view for making recipe with custom instruction
 class GenerateRecipeWithInstruction(View):
     def post(self, request):
-        protein = request.POST.get('protein')
-        nutritional = request.POST.get('nutritional')
-        cuisine = request.POST.get('cuisine')
-
+        instructions = request.POST.get('instructions')
+        if len(instructions) < 10:
+            messages.error(request, 'Please enter a more detailed prompt. Short, generic prompts will produce poor-quality results.')
+            return redirect('generate')
         try:
             #get all category
             categorys = Category.objects.all()
@@ -70,9 +70,8 @@ class GenerateRecipeWithInstruction(View):
             for category in categorys:
                 category_str += (category.category_name + ', ')
 
-            instruction = f'protein: {protein}, nutritional: {nutritional}, cuisine: {cuisine}'
             #generate recipe for this image
-            generated_recipe = generate_recipe(ingredients= instruction, category= category_str)
+            generated_recipe = generate_recipe(ingredients= instructions, category= category_str)
 
             # #find category for this recipe
             category_id = Category.objects.filter(category_name= generated_recipe.get('category_name'))[0]
