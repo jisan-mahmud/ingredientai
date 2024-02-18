@@ -77,14 +77,14 @@ def activate(request, uidb64, token):
     else:
         return HttpResponse('Link is invalid!')
 
-class Profile(View):
+class MyRecipe(View):
     @method_decorator(login_required(login_url='sign_in'))
     def get(self, request):
         recipes = RecipeModel.objects.filter(user= request.user).order_by('-create_at')
         paginator = Paginator(recipes, 6)
         page_number = request.GET.get('page')
         recipes_obj = paginator.get_page(page_number)
-        return render(request, 'accounts/profile.html', {'recipes': recipes_obj})
+        return render(request, 'accounts/my-recipe.html', {'recipes': recipes_obj})
 
 @login_required
 def edit_profile(request):
@@ -97,7 +97,7 @@ def edit_profile(request):
     else:
         form = UserProfileForm(instance=user)
     print(form)
-    return render(request, 'accounts/edit-profile.html', {'form': form, 'user': user})
+    return render(request, 'accounts/profile.html', {'form': form, 'user': user})
 
 @login_required
 def change_password(request):

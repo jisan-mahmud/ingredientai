@@ -9,7 +9,10 @@ from django.contrib import messages
 
 class GenerateView(View):
     def get(self, request):
-        return render(request, 'generate/generate.html')
+        if request.user.is_authenticated:
+            return render(request, 'generate/generate.html')
+        else:
+            return redirect('sign_in')
 
 
 #Tsis view for making recipe with image

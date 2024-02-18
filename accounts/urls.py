@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import signup, activate, Profile, edit_profile, change_password, user_login, user_logout, ProfileVisit, ResetPassword
+from .views import signup, activate, MyRecipe, edit_profile, change_password, user_login, user_logout, ProfileVisit, ResetPassword
 urlpatterns = [
     path('sign-up', signup, name='sign_up'),
     path('activate<uidb64>/<token>', activate, name='activate'),
-    path('profile/', Profile.as_view(), name= 'profile'),
-    path('update-profile', edit_profile, name='update_profile'),
+    path('my-recipe/', MyRecipe.as_view(), name= 'my_recipe'),
+    path('profile', edit_profile, name='profile'),
     path('change-password', change_password, name= 'change_password'),
     path('sign-in', user_login, name='sign_in'),
     path('logout/', user_logout, name='logout'),

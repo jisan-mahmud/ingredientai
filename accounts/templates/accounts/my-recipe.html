@@ -1,31 +1,20 @@
 {% extends "base.html" %}
 {% load humanize %}
 {% load static %}
-
-
-
 {% block body %}
 <div style="margin-top: 65px;" class="bg-white container">
 	<div class="grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2 lg:gap-8">
 		<div class="post p-5 lg:p-1 rounded-md">
-			<div style="margin-top: 30px;">
-				<h2 class="text-xl font-bold mb-3">Categories <i id="category_toggle" class="fa fa-arrow-down" onclick="toggleCategories()"></i></h2>
-                <ul id="category_items">
-                    <li><a href="{% url 'recipes' %}">All</a></li>
-                    {% if categories %}
-                      {% for category in categories %}
-                        <li><a href="{% url 'recipes' category.id %}">{{category.category_name}}</a></li>
-                      {% endfor %}
-                    {% endif %}
+			<div class="profile-function" style="margin-top: 30px;">
+                <ul>
+                    <li><a href="{% url 'profile' %}">Edit Profile</a></li>
+                    <li class="active"><a href="{% url 'my_recipe' %}">My Recipe</a></li>
+                    <li><a href="{% url 'change_password' %}">Change Password</a></li>
                 </ul>
 			</div>
 		</div>
 		<div class="lg:col-span-2 p-4 bg-white mt-3" id="posted">
-           {% if recipes %}
-           <h2>Recipe </h2><br>
-           {% else %}
-           <h2>Recipe <span style="font-size: 14px; color: brown;">Not Found</span></h2><br>
-           {% endif %}
+            <h2>My Generated Recipe </h2><br>
 			<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {% if recipes %}
                   {% for recipe in recipes %}
@@ -85,10 +74,15 @@
                             <div class="mb-4">
                                 <img src="{{recipe.image.url}}" alt="Post Image" class="w-full h-48 object-cover rounded-md">
                             </div>
-                            <!-- views -->
+                            <!-- Like and Comment Section -->
                             <div class="flex items-center justify-between text-gray-500">
                                 <div class="flex items-center space-x-2">
-                                <i class="fa fa-eye"></i><span>{{recipe.views}} Views</span>
+                                    <!-- views -->
+                                    <div class="flex items-center justify-between text-gray-500">
+                                        <div class="flex items-center space-x-2">
+                                        <i class="fa fa-eye"></i><span>{{recipe.views}} Views</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
