@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% block body %}
+<!-- Header -->
+<header class="ex-header bg-gray">
+  <div class="container px-4 sm:px-8 xl:px-4">
+    <h1 class="xl:ml-24">Recipe Details</h1>
+  </div> <!-- end of container -->
+</header>
+<!-- end of header -->
+
+{% if recipe_object %}
+<!-- Recipe Start -->
+<div style="margin-top: 20px; padding: 10px;" class="recipe-details min-h-screen container">
+  <div class="flex flex-wrap -mx-3">
+    <div class="lg:w-1/3 md:w-1/2 px-3 mb-6">
+      <img class="rounded-lg shadow-md" src="{{recipe_object.image.url}}" alt="Recipe Image">
+    </div>
+    <div class="lg:w-2/3 md:w-1/2 px-3 mb-6">
+      <div style="display: flex;margin-bottom: 5px;">
+        <p class="text-black">Created By: <a style="color: #a5005a" href="{% url 'views_profile' recipe_object.user.id %}">{{recipe_object.user.full_name}}</a> <span style="margin-left: 10px;">Time: {{recipe_object.create_at|naturaltime}}</span></p>
+      </div>
+      <h2 class="text-2xl font-semibold mb-2 text-gray-800">{{recipe_object.recipe_name}}</h2>
+      <p class="text-gray-600 mb-4">{{recipe_object.category.category_name}} | Calorie: {{recipe_object.calorie}} | Cook
+        Time: {{recipe_object.cooking_time}}</p>
+      <p>{{recipe_object.about}}</p>
+      <div class="group">
+        <div style="width: 300px; margin: auto; margin-top: 40px; margin-bottom: 22px;">
+          <a href="#tabs-ingredients"
+          data-te-toggle="pill"
+          data-te-target="#tabs-ingredients"
+          class="tap-button">Ingredients</a>
+       <a href="#tabs-instructions"
+          data-te-toggle="pill"
+          data-te-target="#tabs-instructions"
+          class=" ">Instructions</a>
+        </div>
+
+        <div id="tabs-ingredients" class="opacity-100 mx" data-te-tab-active>
+          <h3 class="text-xl font-semibold mb-2 text-gray-800">Ingredients</h3>
+          <ul class="list-disc list-inside text-gray-600">
+            {% for ingredient in ingredients %}
+            <li>{{ingredient}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div id="tabs-instructions" class="opacity-0 hidden mx" data-te-tab-active>
+          <h3 class="text-xl font-semibold mb-2 text-gray-800">Instructions</h3>
+          <ul class="list-disc list-inside text-gray-600">
+            {% for instruction in instructions %}
+            <li>{{instruction}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <br />
+      <b>Note: {{recipe_object.notes}}</b>
+    </div>
+  </div>
+</div>
+</div>
+<!-- Recipe in Form End -->
+{% endif %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const tabs = document.querySelectorAll('[data-te-toggle="pill"]');
+    const active = document.querySelectorAll('[data-te-tab-active]');
+    tabs.forEach(function (tab) {
+      tab.addEventListener("click", function (event) {
+        event.preventDefault();
+        document.querySelector('.tap-button').classList.remove('tap-button')
+        // Get the target content based on data-te-target
+        const targetId = this.getAttribute('data-te-target');
+        const targetContent = document.querySelector(targetId);
+        event.target.classList.add('tap-button')
+        // Hide all tab contents
+        active.forEach(function (content) {
+          content.classList.remove('opacity-100');
+          content.classList.add('opacity-0', 'hidden');
+        });
+
+        // Show the selected tab content
+        targetContent.classList.remove('opacity-0', 'hidden');
+        targetContent.classList.add('opacity-100');
+      });
+    });
+  });
+</script>
+
+
+
+
+{% endblock body %}

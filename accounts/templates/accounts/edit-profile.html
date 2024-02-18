@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load static %}
+{% block body %}
+<div style="margin-top: 60px;" class="bg-white container">
+	<div class="grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2 lg:gap-8">
+		<div class="post p-5 lg:p-1 rounded-md">
+			<div class="profile-function" style="margin-top: 38px;">
+                <ul>
+                    <li><a href="{% url 'profile' %}">My Recipe</a></li>
+                    <li class="active"><a href="{% url 'update_profile' %}">Edit Profile</a></li>
+                    <li><a href="{% url 'change_password' %}">Change Password</a></li>
+                </ul>
+			</div>
+		</div>
+		<div class="lg:col-span-2 p-4 bg-white mt-3" id="posted">
+            <div class="profile-info">
+                <form method="post" class="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="flex flex-wrap">
+                        <div style="float: left;" class="md:w-1/6  group p-3">
+                            <a href="#">
+                                <img src="{{form.profile_photo.value.url}}" alt="" />
+                            </a>
+                        </div>
+                        <div style="float: right;" class="right md:w-5/6 group">
+                            <h5 style="margin-bottom: 0px !important" class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{form.full_name.value}}</h5>
+                            <p>{{form.bio.value}}</p>
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="multiple_files">Change Profile Image</label>
+                            <input name="profile_photo" class="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file">
+                        </div>
+
+                    </div>
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div class="relative z-0 w-full mb-5 group">
+                            <label for="full_name">{{form.full_name.label}}</label>
+                            <input type="name" name= "{{form.full_name.name}}" id="Full_name" class="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white" value="{{form.full_name.value}}" placeholder="Full Name..." required>
+                        </div>
+                        <div class="relative z-0 w-full mb-5 group">
+                            <label for="bio">{{form.bio.label}}</label>
+                            <input type="text" name="{{form.bio.name}}" id="bio" class="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white" value="{{form.bio.value}}" placeholder="Your Bio..." required>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div class="relative z-0 w-full mb-5 group">
+                            <label for="country">{{form.country.label}}</label>
+                            <input type="text" name="{{form.country.name}}" id="country" class="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white" value="{{form.country.value}}" placeholder="Your Country...">
+                        </div>
+                        <div class="relative z-0 w-full mb-5 group">
+                            <label for="city">{{form.city.label}}</label>
+                            <input type="text" name="{{form.city.name}}" id="city" class="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white" value="{{form.city.value}}" placeholder="Your City...">
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div class="relative z-0 w-full mb-5 group">
+                            <label for="address">{{form.address.label}}</label>
+                            <input type="text" name="{{form.address.name}}" id="address" class="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white" value="{{form.address.value}}" placeholder="Your Address...">
+                        </div>
+                        <div class="relative z-0 w-full mb-5 group">
+                            <label for="date">{{form.date_of_birth.label}}</label>
+                            <input type="date" name="{{form.date_of_birth.name}}" id="date" class="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white" value="{{ form.date_of_birth.value|date:'Y-m-d' }}" >
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div class="relative z-0 w-full mb-5 group">
+                            <label for="phone_number">{{form.phone_number.label}}</label>
+                            <input type="number" name="{{form.phone_number.name}}" id="phone_number" class="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white" value="{{form.phone_number.value}}" placeholder="Your Phone Number...">
+                        </div>
+                        <div class="relative z-0 w-full mb-5 group">
+                            <label for="twitter">{{form.twitter.label}}</label>
+                            <input type="text" name="{{form.twitter.name}}" id="twitter" class="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white" value="{{form.twitter.value}}" placeholder="Your Twitter profile...">
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div class="relative z-0 w-full mb-5 group">
+                            <label for="linkedin">{{form.linkedin.label}}</label>
+                            <input type="text" name="{{form.linkedin.name}}" id="linkedin" class="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white" value="{{form.linkedin.value}}" placeholder="Your LinkedIn Profile...">
+                        </div>
+                        <div class="relative z-0 w-full mb-5 group">
+                            <label for="github">{{form.github.label}}</label>
+                            <input type="text" name="{{form.github.name}}" id="github" class="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white" value="{{form.github.value}}" placeholder="Your Github profile...">
+                        </div>
+                    </div>
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                </form>
+           </div>
+		</div>
+	</div>
+</div>
+{% endblock body %}

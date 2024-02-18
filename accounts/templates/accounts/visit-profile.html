@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load static %}
+{% block body %}
+<div style="margin-top: 65px;" class="bg-white container">
+	<div class="grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2 lg:gap-8">
+		<div class="post p-5 lg:p-1 rounded-md">
+			<div style="margin-top: 65px;">
+				<div class="bg-white p-8 rounded-lg shadow-md max-w-md w-full mb-4">
+					<!-- Banner Profile -->
+					<div class="relative">
+						<img src="https://static.vecteezy.com/system/resources/previews/013/488/415/original/tasty-fast-food-hand-drawn-for-cute-background-illustration-design-wallpaper-in-pattern-hand-drawn-style-vector.jpg" alt="Banner Profile" class="w-full rounded-t-lg">
+						<img src="{{profile_info.profile_photo.url}}" alt="Profile Picture" class="absolute bottom-0 left-2/4 transform -translate-x-1/2 translate-y-1/2 w-24 h-24 rounded-full border-4 border-white">
+					</div>
+					<!-- User Info with Verified Button -->
+					<div class="flex items-center mt-12">
+						<h2 class="text-xl font-bold text-gray-800">{{profile_info.full_name}}</h2>
+					</div>
+					<!-- Bio -->
+					<p class="text-gray-700 mt-2"> {{profile_info.bio}} </p>
+					<!-- Social Links -->
+					<div class="flex items-center mt-4 space-x-4">
+						<a href="#" class="text-blue-500 hover:underline"> Twitter </a>
+						<a href="#" class="text-blue-500 hover:underline"> GitHub </a>
+						<a href="#" class="text-blue-500 hover:underline"> LinkedIn </a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="lg:col-span-2 p-4 bg-white mt-3" id="posted">
+            <h2>Recipe </h2><br>
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {% if recipes %}
+                  {% for recipe in recipes %}
+                  {% if forloop.counter0|divisibleby:2 %}
+                        <!-- First Column -->
+                        <div class="bg-white p-8 rounded-lg shadow-md max-w-md">
+                            <!-- User Info with Three-Dot Menu -->
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-2">
+                                    <img src="{{recipe.user.profile_photo.url}}" alt="User Avatar" class="w-8 h-8 rounded-full">
+                                    <div>
+                                        <p class="text-gray-800 font-semibold"><a href="{% url 'views_profile' recipe.user.id %}">{{recipe.user.full_name}}</a></p>
+                                        <p class="text-gray-500 text-sm">{{recipe.create_at|naturaltime}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Message -->
+                            <div class="mb-4">
+                                <p class="text-gray-800"><a href="{% url 'recipe_details' recipe.id recipe.slug %}">{{recipe.recipe_name}}</a></p>
+                                <p class="text-blue-600">{{recipe.category.category_name}}</p>
+                            </div>
+                            <!-- Image -->
+                            <div class="mb-4">
+                                <img src="{{recipe.image.url}}" alt="Post Image" class="w-full h-48 object-cover rounded-md">
+                            </div>
+                            <!-- Like and Comment Section -->
+                            <div class="flex items-center justify-between text-gray-500">
+                                <div class="flex items-center space-x-2">
+                                    <!-- views -->
+                                    <div class="flex items-center justify-between text-gray-500">
+                                        <div class="flex items-center space-x-2">
+                                        <i class="fa fa-eye"></i><span>{{recipe.views}} Views</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <!-- Second Column -->
+                        <div class="bg-white p-8 shadow-md rounded-lg">
+                            <!-- User Info with Three-Dot Menu -->
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-2">
+                                    <img src="{{recipe.user.profile_photo.url}}" alt="User Avatar" class="w-8 h-8 rounded-full">
+                                    <div>
+                                        <p class="text-gray-800 font-semibold"><a href="{% url 'views_profile' recipe.user.id %}">{{recipe.user.full_name}}</a></p>
+                                        <p class="text-gray-500 text-sm">{{recipe.create_at|naturaltime}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Message -->
+                            <div class="mb-4">
+                                <p class="text-gray-800"><a href="{% url 'recipe_details' recipe.id recipe.slug %}">{{recipe.recipe_name}}</a></p>
+                                <p class="text-blue-600">{{recipe.category.category_name}}</p>
+                            </div>
+                            <!-- Image -->
+                            <div class="mb-4">
+                                <img src="{{recipe.image.url}}" alt="Post Image" class="w-full h-48 object-cover rounded-md">
+                            </div>
+                            <!-- Like and Comment Section -->
+                            <div class="flex items-center justify-between text-gray-500">
+                                <div class="flex items-center space-x-2">
+                                    <!-- views -->
+                                    <div class="flex items-center justify-between text-gray-500">
+                                        <div class="flex items-center space-x-2">
+                                        <i class="fa fa-eye"></i><span>{{recipe.views}} Views</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+			</div>
+            {% if recipes.has_next %}
+            <nav style="margin-top: 25px;" class="load-more" aria-label="Page navigation example">
+                <a href="?page={{recipes.next_page_number}}" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Load More</a>
+
+            </nav>
+        {% endif %}
+		</div>
+	</div>
+</div>
+{% endblock body %}

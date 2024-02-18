@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+ <!-- Header -->
+    <header id="header" class="header py-18 text-center md:pt-26 lg:text-left xl:pt-32 xl:pb-20">
+        <div class="container px-4 sm:px-8 lg:grid lg:grid-cols-2 lg:gap-x-8">
+            <div class="mb-16 lg:mt-32 xl:mt-40 xl:mr-12">
+                <h1 class="h1-large mb-5">Effortless meal plans
+                    with AI generated recipes!</h1>
+                <p class="p-medium mb-8">Discover new recipes by following users with similar tastes and nutritional goals 🎉.</p>
+                <a class="btn-solid-lg" href="{% url 'recipes' %}">Go TO Recipes</a>
+                <a class="btn-solid-lg secondary" href="{% url 'generate' %}">Recipe Generator</a>
+            </div>
+            <div class="xl:text-right">
+                <img class="inline" src="{% static 'images/coking.png' %}" alt="alternative" />
+            </div>
+        </div> <!-- end of container -->
+    </header> <!-- end of header -->
+    <!-- end of header -->
+    <!-- Details 2 -->
+    <div class="py-24">
+        <div class="container px-4 sm:px-8 lg:grid lg:grid-cols-12 lg:gap-x-12">
+            <div class="lg:col-span-7">
+                <div class="mb-12 lg:mb-0 xl:mr-14">
+                    <img class="inline" src="{% static 'images/recipe-ai.png' %}" alt="alternative" />
+                </div>
+            </div> <!-- end of col -->
+            <div class="lg:col-span-5">
+                <div class="xl:mt-12">
+                    <h2 class="mb-6">Recipe AI Some Key Features</h2>
+                    <ul class="list mb-7 space-y-2">
+                        <li class="flex">
+                            <i class="fas fa-chevron-right"></i>
+                            <div>AI-powered recipe generation based on user preferences.</div>
+                        </li>
+                        <li class="flex">
+                            <i class="fas fa-chevron-right"></i>
+                            <div>user can generate a recipe from a food image.</div>
+                        </li>
+                        <li class="flex">
+                            <i class="fas fa-chevron-right"></i>
+                            <div>User can see another user-generated recipe.</div>
+                        </li>
+                        <li class="flex">
+                            <i class="fas fa-chevron-right"></i>
+                            <div>User accounts with personalized profiles to save recipes</div>
+                        </li>
+                        <li class="flex">
+                            <i class="fas fa-chevron-right"></i>
+                            <div>Detailed step-by-step cooking instructions for each recipe</div>
+                        </li>
+                    </ul>
+                </div>
+            </div> <!-- end of col -->
+        </div> <!-- end of container -->
+    </div>
+    <!-- end of details 2 -->
+
+
+    <!-- Features -->
+    <div id="features" class="cards-1">
+        <div class="container px-4 sm:px-8 xl:px-4">
+
+            <!-- Card -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="{% static 'images/recipe_generate.png' %}" alt="alternative" />
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Food Image To Recipe Generate</h5>
+                    <p class="mb-4">You can create a recipe for any food image without needing credit. Just share the image, and I'll generate a delicious recipe for you!</p>
+                </div>
+            </div>
+            <!-- end of card -->
+
+            <!-- Card -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="{% static 'images/recipe.png' %}" alt="alternative" />
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Explore Other People Recipe</h5>
+                    <p class="mb-4">Explore others' people recipes for inspiration and incorporate unique elements into your own cooking for a distinct culinary experience.</p>
+                </div>
+            </div>
+            <!-- end of card -->
+
+            <!-- Card -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="{% static 'images/save.png' %}" alt="alternative" />
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Saved your cooking instructions.</h5>
+                    <p class="mb-4">
+                        Saved your recipe for easy access. Ensuring a quick and enjoyable cooking experience each time you revisit the instructions.</p>
+                </div>
+            </div>
+            <!-- end of card -->
+
+        </div> <!-- end of container -->
+    </div> <!-- end of cards-1 -->
+    <!-- end of features -->
+
+
+
+    <!-- Conclusion -->
+    <div id="drive-in" class="basic-5">
+        <div class="container px-4 sm:px-8 lg:grid lg:grid-cols-2">
+            <div class="mb-16 lg:mb-0">
+                <img src="{% static 'images/drive-in.png' %}" alt="alternative" />
+            </div>
+            <div class="lg:mt-24 xl:mt-44 xl:ml-12">
+                <h1 class="mb-9 text-gray-800 text-3xl leading-10">Ready to dive in?</h1>
+                <p class="mb-9 text-gray-800 text-2xl leading-10">Save your recipe, comment, and like another user's recipe. Start your culinary adventure today!</p>
+               {% if user.is_authenticated %}
+               <a class="btn-solid-lg" href="{% url 'recipes' %}">Go To Recipes</a>
+               <a class="btn-solid-lg secondary" href="{% url 'generate' %}">Recipe Generator</a>
+               {% else %}
+               <a class="btn-solid-lg" href="{% url 'sign_in' %}">Login</a>
+               <a class="btn-solid-lg secondary" href="{% url 'sign_up' %}">Sign Up</a>
+               {% endif %}
+            </div>
+        </div> <!-- end of container -->
+    </div> <!-- end of basic-5 -->
+    <!-- end of conclusion -->
+{% endblock body %}

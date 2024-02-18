@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+<!-- Details 2 -->
+<div class="py-24">
+    <div class="details container px-4 sm:px-8 lg:grid lg:grid-cols-12 lg:gap-x-12">
+        <div class="lg:col-span-6">
+            <div class="mb-12 lg:mb-0 xl:mr-14">
+                <img class="inline details-img" src="{% static 'images/recipe-ai.png' %}" alt="alternative" />
+            </div>
+        </div> <!-- end of col -->
+        <div class="lg:col-span-6">
+            <div class="xl:mt-7">
+                <h1 class="mb-6">Recipe Generator</h1>
+                <div>Embark on a culinary journey with our Recipe-Ai AI-powered recipe generator, available to you at no cost! Save your unique recipe creations to your personalised profile, seamlessly integrate them into your weekly meal plan, or effortlessly compile the ingredients for your grocery list. Let your inner chef shine with our free and convenient features!</div>
+            </div>
+        </div> <!-- end of col -->
+    </div> <!-- end of container -->
+</div>
+<!-- end of details 2 -->
+
+<!-- generated section -->
+<div class="container generate-box mx-auto p-4">
+    <h1 style="margin-bottom: 0;" class="text-5xl text-center mb-8">Generate Recipes!</h1>
+    <div style="width: 289px; margin-bottom: 20px;" class="mx-auto p-4">
+        <button id="input-field-button" type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">WithOut Image</button>
+        <button id="image-field-button" type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">With Image</button>
+    </div>
+    <!-- generate by custom input -->
+    <div class="input-field">
+       <form method="post" action="{% url 'using_instruction' %}">
+        {% csrf_token %}
+            <div style="width: 70%; margin: auto" class="flex flex-wrap"> <div class="w-full md:w-1/3 p-2">
+                <label class="block mb-2">Choose a protein:</label>
+                <select name="protein" id="protein" class="block w-full border border-gray-300 rounded-lg p-2">
+                    <option value="beef">Beef</option>
+                    <option value="chicken">Chicken</option>
+                    <option value="fish">Fish</option>
+                    <option value="pork">Pork</option>
+                    <option value="turkey">Turkey</option>
+                    <option value="plant">Plant</option>
+                </select>
+            </div>
+            <div class="w-full md:w-1/3 p-2">
+                <label class="block mb-2">Choose a nutritional style:</label>
+                <select name="nutritional" id="style" class="block w-full border border-gray-300 rounded-lg p-2">
+                    <option value="healthy">Healthy</option>
+                    <option value="hearty">Hearty</option>
+                    <option value="low-carb">Low Carb</option>
+                    <option value="whole-foods">Whole Foods</option> </select>
+                </div>
+                <div class="w-full md:w-1/3 p-2">
+                    <label class="block mb-2">Select cuisine:</label>
+                    <select name="cuisine" id="cuisine" class="block w-full border border-gray-300 rounded-lg p-2">
+                        <option value="">Any</option>
+                        <option value="italian">Italian</option>
+                        <option value="mexican">Mexican</option> <option value="indian">Indian</option>
+                        <option value="chinese">Chinese</option> <option value="thai">Thai</option>
+                    </select>
+                </div>
+            </div>
+            {% if messages %}
+                {% for message in messages %}
+                <div class="max-w-screen-md mx-auto p-4 mt-10 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                    {{message}}
+                  </div>
+                {% endfor %}
+            {% endif %}
+            <div class="flex justify-center mt-8">
+                <div id="movingBallG" class="hidden">
+                    <div class="movingBallLineG"></div>
+                    <div id="movingBallG_1" class="movingBallG"></div>
+                </div>
+                <button onclick="handleGenerateClick()" id="generate" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"> Generate Recipes! </button>
+            </div>
+       </form>
+    </div>
+
+    <!-- generate by image -->
+    <div style="display: none;"  class="image-field">
+        <form method="post" action="{% url 'using_image' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="flex items-center justify-center w-full">
+                <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                        </svg>
+                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                    </div>
+                    <input id="dropzone-file" name="image" type="file" class="hidden"  onchange="displayFileName(this)"/>
+                    <label id="selected-file-name">No file selected</label>
+                </label>
+            </div>
+            {% if messages %}
+                {% for message in messages %}
+                <div class="max-w-screen-md mx-auto p-4 mt-10 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                    {{message}}
+                  </div>
+                {% endfor %}
+            {% endif %}
+            <div class="flex justify-center mt-8">
+                <div id="movingBallG1" class="hidden">
+                    <div class="movingBallLineG"></div>
+                    <div id="movingBallG_1" class="movingBallG"></div>
+                </div>
+                <button onclick="handleGenerateClick1()" id="generate1" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"> Generate Recipes! </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+<!-- end generated section -->
+
+<!-- Basic -->
+<div class="ex-basic-1 py-12">
+    <div class="container mx-auto px-4 sm:px-8 xl:max-w-5xl xl:px-12">
+        <h2 class="mt-12 mb-4">Are the recipes any good?</h2>
+        <p class="mb-12">Surprisingly yes! Recipe AI users have generated close to 10,000 custom recipes and we have personally cooked dozens of them. So far our experience has been overwhelmingly positive with the recipes providing quick and easy meal plans and new flavor combinations we might not have considered otherwise.
+
+        Feel free to check out our list of the Best AI Generated Recipes or read more about our experience eating AI generated food.</p>
+        <h3 class="mb-2">What about meal planning?</h3>
+        <p class="mb-12">Glad you asked! MealPractice was built from the ground up to simplify weekly meal planning. We make it easy to add recipes to your plan, manage your shopping list, and keep track of your favorite recipes.
+
+        For more details check out this quick video showcasing how easy it is to integrate your custom generated recipes into your meal plan.</p>
+        <h3 class="mb-2">What's the point of AI generated recipes?</h3>
+        <p class="mb-12">AI generated recipes offer instant access to personalized meal ideas that align with your taste preferences or dietary requirements.
+
+        No more meal monotony - Our recipe generator puts a world of culinary variety at your fingertips, providing an unlimited supply of dishes to ensure you never have to cook the same thing twice. (Unless you want to!)
+
+        These unique recipes provide a spark of inspiration and are guaranteed to take the humdrum out of your weekly meal planning!</p>
+    </div>
+    <!-- end of container -->
+</div>
+<!-- end of ex-basic-1 -->
+<!-- end of basic -->
+
+<script>
+    // Assuming there is only one element with the class 'input-field' and 'image-field'
+    var input_field = document.querySelector('.input-field');
+    var image_field = document.querySelector('.image-field');
+    var input_button = document.getElementById('input-field-button')
+    var image_button = document.getElementById('image-field-button')
+
+    input_button.addEventListener('click', function(e) {
+        input_field.style.display = 'block';
+        image_field.style.display = 'none';
+    });
+
+    image_button.addEventListener('click', function(e) {
+        input_field.style.display = 'none';
+        image_field.style.display = 'block';
+    });
+
+    function displayFileName(input) {
+    const fileNameDisplay = document.getElementById('selected-file-name');
+
+    if (input.files.length > 0) {
+      fileNameDisplay.textContent = input.files[0].name;
+    } else {
+      fileNameDisplay.textContent = 'No file selected';
+    }
+  }
+
+  function handleGenerateClick() {
+    var loader = document.getElementById('movingBallG');
+    var generateButton = document.getElementById('generate');
+
+    loader.classList.remove('hidden');
+    generateButton.classList.add('hidden');
+  }
+
+  function handleGenerateClick1() {
+    var loader = document.getElementById('movingBallG1');
+    var generateButton = document.getElementById('generate1');
+    loader.classList.remove('hidden');
+    generateButton.classList.add('hidden');
+  }
+
+
+</script>
+{% endblock body %}
