@@ -7,7 +7,7 @@ from accounts.models import CustomUser
 class RecipeModel(models.Model):
     recipe_name = models.CharField(max_length= 250)
     slug = models.SlugField(max_length= 300, blank= True, null= True)
-    image = models.ImageField(upload_to= 'recipe_image/', blank= True, default= 'recipe_image/recipe_thumb.jpg')
+    image = models.ImageField(upload_to= 'recipe_image/', blank= True, default= 'recipe_image/recipe_thumb.webp')
     about = models.TextField()
     user = models.ForeignKey(CustomUser, on_delete= models.CASCADE, default= 1)
     category = models.ForeignKey(Category, on_delete= models.CASCADE, related_name= 'recipe')

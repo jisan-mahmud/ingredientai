@@ -73,7 +73,7 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         login(request, user)
-        return redirect('home')
+        return redirect('profile')
     else:
         return HttpResponse('Link is invalid!')
 
@@ -93,7 +93,7 @@ def edit_profile(request):
         form = UserProfileForm(request.POST,request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('update_profile')
+            return redirect('profile')
     else:
         form = UserProfileForm(instance=user)
     print(form)
